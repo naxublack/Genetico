@@ -24,13 +24,7 @@ public class Metodos {
     //Variable global que contendrá las distancias entre ciudades en forma de matriz 2D
     public static int[][] costos = new int[29][29];
     
-    public static void suma2numeros(int num1 , int num2){
-        System.out.println("Que zarpa hno");
-        int suma;
-        suma = num1 + num2+100;
-        System.out.println(suma);
-    }
-    
+       
     public static void crearArchivo(){
         //Extraer columnas que contienen las distancias
         File original;
@@ -103,7 +97,11 @@ public class Metodos {
         file.delete();
     }
     
-    //Calcula el costo de una secuencia.
+    /**
+     * Calcula el costo de una secuencia.
+     * @param secuencia Permutación del TSP
+     * @return Costo de la permutación.
+     */
     public static int calcularCosto(int[] secuencia){
         //Calcular costo
         int suma = 0;
@@ -122,7 +120,10 @@ public class Metodos {
         return suma;
     }
     
-    //Permutar una secuencia. Ejecutar un array shuffle.
+    /**
+     * Permutar una secuencia. Ejecutar un array shuffle.
+     * @param arreglo Arreglo a permutar. La misma variable queda permutada.
+     */
     public static void permutarSecuencia(int[] arreglo){
         Random rnd = ThreadLocalRandom.current();
         for (int i = arreglo.length - 1; i > 0; i--)
@@ -135,7 +136,11 @@ public class Metodos {
         }
     }
     
-    //Imprimir arreglo de una dimensión
+    
+    /**
+     * Imprimir arreglo de 1 dimensión
+     * @param arreglo Arreglo a mostrar en consola.
+     */
     public static void imprimirArreglo(int[] arreglo){
         for (int i = 0; i < arreglo.length; i++)
         {
@@ -144,7 +149,10 @@ public class Metodos {
         System.out.println();
     }
     
-    //Imprimir una matriz 2D
+    /**
+     * Imprimir una matriz 2D
+     * @param matrix MAtriz a imprimir.
+     */
     public static void imprimirMatriz(int[][] matrix){
         for (int i = 0; i < matrix.length; i++) 
         {
@@ -156,7 +164,12 @@ public class Metodos {
         }
     }
     
-    //Obtener indes de un arreglo a partir de un valor pedido.
+    /**
+     * Obtener index de un arreglo a partir de un valor pedido.
+     * @param valor Valor a buscar en un arreglo.
+     * @param arreglo Arreglo en el que se quiere buscar un valor.
+     * @return Índex del valor buscado dentro del arreglo.
+     */
     public static int obtenerIndex(int valor, int[] arreglo){
         int index = 222;
         for (int i = 0; i < arreglo.length; i++)
@@ -169,15 +182,26 @@ public class Metodos {
         return index;
     }
     
-    //Generar número aleatorio dentro del rango. Incluye los bordes.
+    /**
+     * Generar número aleatorio dentro del rango. Incluye los bordes.
+     * @param min Número mínimo
+     * @param max Número máximo
+     * @return Número random entero entre un mínimo y un máximo. Considera bordes.
+     */
     public static int generarRandom(int min, int max){
         int random = ThreadLocalRandom.current().nextInt(min, max + 1);
         return random;
     }
     
-    /* Genera un array del tamaño especificado que contiene un random
+    
+    /**
+     * Genera un array del tamaño especificado que contiene un random
     de números sin repetición. Ojo que el tamaño no puede ser mayor
-    que el límite y el rango de valores posibles es [0,límite]*/
+    que el límite y el rango de valores posibles es [0,límite]
+     * @param tamano Tamaño del array a generar.
+     * @param limite Indica el límite superior hasta el cual se considerará el random [0,límite]
+     * @return Regresa un array de números shuffleados dentro de un rango determinado y sin repetición.
+     */
     public static int[] randomArray(int tamano, int limite){
         int[] arreglo = new int[tamano];
         int count=0;
@@ -208,12 +232,12 @@ public class Metodos {
         //System.out.println("");
         return arreglo;
         }
-    
+   
     /**
      * Extraer una determinada fila de una matriz
-     * @param fila fedfdfedfef
-     * @param matriz wdfwdfsdfs
-     * @return wdwdfwfwdf
+     * @param fila Fila a extraer (Comienza desde 0)
+     * @param matriz Matriz a trabajar.
+     * @return Fila pedida de la matriz consultada.
      */
     public static int[] extraerArray(int fila,int[][] matriz){
         int largo = matriz[0].length;
@@ -235,18 +259,54 @@ public class Metodos {
     
     /**
      * Obtener valor máximo de un arreglo
-     * @param arreglo la permutacion
-     * @return el maximo dentro de la permutacion
+     * @param arreglo Arreglo
+     * @return El número máximo dentro del arreglo.
      */
     public static int obtenerMax(int[] arreglo){
         int max = Arrays.stream(arreglo).max().getAsInt();
         return max;
     }
     
-    //Obtener valor mínimo de un arreglo
+    /**
+     * Obtener valor mínimo de un arreglo
+     * @param arreglo Arreglo
+     * @return El número múnimo dentro del arreglo.
+     */
     public static int obtenerMin(int[] arreglo){
         int min = Arrays.stream(arreglo).min().getAsInt();
         return min;
+    }
+    
+    /**
+     * Ejecutar un invert swap entre 2 index o nodos en un arreglo.
+     * @param arreglo Arreglo a permutar.
+     * @param index1 Primer índice del segmento.
+     * @param index2 Índice final del segmento.
+     * @param exito Probabilidad de éxito de la mutación.
+     * @return Arreglo con segmento invertido.
+     */
+    public static int[] ejecutar2opt(int[] arreglo, int index1, int index2, int exito){
+        int z = generarRandom(1, 100);
+        int[] aux = new int[arreglo.length];
+            for (int i=0;i<arreglo.length;i++)
+            {
+                aux[i] = arreglo[i];
+            }
+        if (z <= exito)
+        {
+            int h = 0;
+            for (int i = index1; i<=index2; i = i + 1)
+            {
+                aux[i] = arreglo[index2 - h];
+                h = h + 1;
+            }
+            return aux;
+        }
+        else
+        {
+            return aux;        
+        }
+        
     }
 
 

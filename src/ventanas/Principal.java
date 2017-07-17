@@ -44,6 +44,7 @@ public class Principal extends javax.swing.JFrame {
         jButtonSeleccion = new javax.swing.JButton();
         jButtonSalir = new javax.swing.JButton();
         jButtonAbrir = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jLabelValidar = new javax.swing.JLabel();
         jLabelFondo = new javax.swing.JLabel();
 
@@ -104,6 +105,14 @@ public class Principal extends javax.swing.JFrame {
         });
         getContentPane().add(jButtonAbrir, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, -1, -1));
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 180, -1, -1));
+
         jLabelValidar.setText("No se ha seleccionado archivo");
         getContentPane().add(jLabelValidar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, 280, 40));
 
@@ -158,37 +167,23 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSeleccionActionPerformed
 
     private void jButtonCruzamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCruzamientoActionPerformed
-        int[][] matrix = new int[15][29];
-        int[] mostrar = new int[29];
-        for(int i=0;i<15;i++)
-        {
-            for(int j=0;j<29;j++)
-            {
-                matrix[i][j] = i;
-            }
-        }
-        mostrar = extraerArray(3,matrix);
-        imprimirArreglo(mostrar);
+        
     }//GEN-LAST:event_jButtonCruzamientoActionPerformed
 
     private void jButtonMutacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMutacionActionPerformed
-        int[] prueba = {1,44,5,3,73,-1,0,-53};
-        System.out.println(obtenerMin(prueba));
-        System.out.println(obtenerMax(prueba)); 
-        /*int[] asdf = randomArray(6,5);
-        int[][] matriz = {{0,0,0},{1,1,1},{2,2,2},{3,3,3}};
-        int[] array = extraerArray(1,matriz);
-        imprimirArreglo(array);
-        array = extraerArray(3,matriz);
-        imprimirArreglo(array);
-        array = extraerArray(2,matriz);
-        imprimirArreglo(array);
-        array = extraerArray(5,matriz);
-        imprimirArreglo(array);*/
-        
-        
-        System.out.println("FUNCIONÓ !!!!");
+        Mutacion mutacion = new Mutacion();
+        mutacion.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jButtonMutacionActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int[] array = {1,2,3,4,5,6,7,8,9,0};
+        
+        double x = 3.4455;
+        System.out.println(x);
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -227,6 +222,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonAbrir;
     private javax.swing.JButton jButtonCruzamiento;
     private javax.swing.JButton jButtonMutacion;
