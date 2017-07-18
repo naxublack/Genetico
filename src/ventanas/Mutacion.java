@@ -76,12 +76,12 @@ public class Mutacion extends javax.swing.JFrame {
         getContentPane().add(jLabelIndex2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, 160, 20));
 
         jLabelExito.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabelExito.setText("Probabilidad de mutar");
+        jLabelExito.setText("Probabilidad de mutación");
         getContentPane().add(jLabelExito, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 350, 160, 20));
 
         jLabelPorcent.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabelPorcent.setText("%");
-        getContentPane().add(jLabelPorcent, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 350, 20, 20));
+        jLabelPorcent.setText("1 ~ 100 %");
+        getContentPane().add(jLabelPorcent, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 350, 80, 20));
 
         jTextFieldIndex1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

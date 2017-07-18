@@ -167,7 +167,9 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSeleccionActionPerformed
 
     private void jButtonCruzamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCruzamientoActionPerformed
-        
+        Cruzamiento cruzamiento = new Cruzamiento();
+        cruzamiento.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jButtonCruzamientoActionPerformed
 
     private void jButtonMutacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMutacionActionPerformed
