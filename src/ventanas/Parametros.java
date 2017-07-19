@@ -2,12 +2,11 @@ package ventanas;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import tarea3.Metodos;
 import static tarea3.Metodos.*;
+import tarea3.PMX;
 /**
  *
  * @author Nacho
@@ -17,6 +16,10 @@ public class Parametros extends javax.swing.JFrame {
     private FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivo de Texto","txt");
     
     public static File original;
+    public static int costoFinal;
+    public static int[] permFinal;
+    public static int genFinal;
+            
 
     /**
      * Creates new form Inicio
@@ -98,6 +101,7 @@ public class Parametros extends javax.swing.JFrame {
         jLabelIteraciones.setText("Número máx de iteraciones");
         getContentPane().add(jLabelIteraciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 160, 160, 20));
 
+        jTexttmax.setText("1");
         jTexttmax.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTexttmaxActionPerformed(evt);
@@ -109,6 +113,7 @@ public class Parametros extends javax.swing.JFrame {
         jLabelPoblacion.setText("Tamaño de la población");
         getContentPane().add(jLabelPoblacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, 160, 20));
 
+        jTextFieldpsize.setText("20");
         jTextFieldpsize.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldpsizeActionPerformed(evt);
@@ -119,24 +124,30 @@ public class Parametros extends javax.swing.JFrame {
         jLabelTamtor.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabelTamtor.setText("Tamaño del torneo");
         getContentPane().add(jLabelTamtor, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 240, 160, 20));
+
+        jTextFieldk.setText("4");
         getContentPane().add(jTextFieldk, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 240, 50, -1));
 
         jLabelProbcross.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabelProbcross.setText("Probabilidad de cruzamiento");
         getContentPane().add(jLabelProbcross, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 280, 160, 20));
+
+        jTextFieldpcross.setText("80");
         getContentPane().add(jTextFieldpcross, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 280, 50, -1));
 
         jLabelPorcent.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabelPorcent.setText("1 ~ 100 %");
+        jLabelPorcent.setText("0 ~ 100 %");
         getContentPane().add(jLabelPorcent, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 280, 80, 20));
 
         jLabelProbmuta.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabelProbmuta.setText("Probabilidad de mutación");
         getContentPane().add(jLabelProbmuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 320, 160, 20));
+
+        jTextFieldpmut.setText("20");
         getContentPane().add(jTextFieldpmut, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 320, 50, -1));
 
         jLabelPorcent1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabelPorcent1.setText("1 ~ 100 %");
+        jLabelPorcent1.setText("0 ~ 100 %");
         getContentPane().add(jLabelPorcent1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 320, 80, 20));
 
         jButtonGo.setBackground(new java.awt.Color(0, 0, 102));
@@ -203,6 +214,215 @@ public class Parametros extends javax.swing.JFrame {
     }//GEN-LAST:event_jTexttmaxActionPerformed
 
     private void jButtonGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGoActionPerformed
+        //Rescate de parámetros de la interfaz
+        int tmax = Integer.parseInt(jTexttmax.getText());
+        int psize = Integer.parseInt(jTextFieldpsize.getText());
+        int k = Integer.parseInt(jTextFieldk.getText());
+        int pcross = Integer.parseInt(jTextFieldpcross.getText());
+        int pmut = Integer.parseInt(jTextFieldpmut.getText());
+        
+        //Variables, arreglos y matrices
+        int[] permGanadora = new int[29];
+        int costoGanador = 10000;
+        int generacion = 999;
+        int[][] poblacion = new int[psize][29];
+        int[] fitness = new int[psize];
+        int[][] ganadoresTorneo = new int[psize][29];
+        int[] fitnessTorneo = new int[psize];
+        int[] secuencia = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29};
+        int[][] matrizHijos = new int[psize][29];
+        int[] fitnessHijos = new int[psize];
+        int[][] matrizGeneracion = new int[psize][29];
+        int[] fitnessGeneracion = new int[psize];
+        
+        int index1, index2, h, rnd;
+        
+        //Cantidad de iteraciones pedidas
+        for (int t = 0 ; t < tmax ; t++)
+        {
+            //Cuando es la primera iteración la población es generada por fisher-yates
+            if (t == 0)
+            {
+                //Crear matriz con cantidad de permutaciones pedidas y respectivo arreglo con sus costos.
+                for(int i = 0; i < psize ; i++)
+                {
+                    //Obtener una permutación distinta
+                    permutarSecuencia(secuencia);
+                    //Pasar secuencia a matriz
+                    for(int j = 0; j < 29 ; j++)
+                    {
+                        poblacion[i][j] = secuencia[j];                
+                    }
+                    //Pasar el costo de la secuencia a un arreglo
+                    fitness[i] = calcularCosto(secuencia);
+                }
+            }
+            
+            //----------------------- SELECCIÓN DE PADRES ----------------------
+            //Llenar matriz de ganadores del torneo
+            for(int n=0; n<psize; n++)
+            {
+                //Definir matriz y arreglo auxiliares
+                int[][] aux1 = new int [k][poblacion[0].length];
+                int[] aux2 = new int [k];
+                int[] aux3 = new int [poblacion[0].length];
+                //Obtener orden con el resultado de la lotería
+                int[] extraer = randomArray(k, poblacion.length-1);
+                for (int i = 0; i < k; i++)
+                {
+                    int fila = extraer[i];
+                    //Extraer la fila que ordene el array aleatorio desde la matriz
+                    aux3 = extraerArray(fila,poblacion);
+                    //Pasar la fila extraida a la matriz auxiliar 1
+                    for (int j = 0; j < poblacion[0].length; j++)
+                    {
+                        aux1[i][j] = aux3[j];
+                    }
+                    //Aprovechar de pasar el costo de cada fila a un array
+                    aux2[i] = calcularCosto(aux3);
+                }
+                //Buscar ganador 
+                int costoMin = obtenerMin(aux2);
+                int index = obtenerIndex(costoMin, aux2);
+                int[] winner = aux1[index];
+                //Rellenar matriz ganadoresTorneo
+                ganadoresTorneo[n] = winner;
+                fitnessTorneo[n] = calcularCosto(winner);
+                
+            }
+            ///////////////System.out.println("Imprimir poblacion: ");
+            ///////////////imprimirMatriz(poblacion);
+            ///////////////System.out.println("Costos poblacion: ");
+            ///////////////imprimirArreglo(fitness);
+            ///////////////System.out.println("Matriz gandoresTorneo: ");
+            ///////////////imprimirMatriz(ganadoresTorneo);
+            ///////////////System.out.println("print costos ganadores torneo: ");
+            ///////////////imprimirArreglo(fitnessTorneo);
+            
+            
+            //----------------------- CRUZAMIENTO ----------------------
+            //Primera dirección de llenado
+            h = 0;
+            for(int n=0; n<psize/2; n++)
+            {
+                //Creación de índices y validación
+                index1 = generarRandom(0, poblacion[0].length-1);
+                index2 = generarRandom(0, poblacion[0].length-1);
+                while (index2<index1)
+                {
+                    index1 = generarRandom(0, poblacion[0].length-1);
+                    index2 = generarRandom(0, poblacion[0].length-1);
+                }
+                
+                rnd = generarRandom(1, 100);
+                if (rnd<=pcross)
+                {
+                    
+                    
+                    matrizHijos[n] = PMX.pmx(ganadoresTorneo[h], ganadoresTorneo[h+1], index1, index2);
+                    ///////////////System.out.println("PRIMERA direccion de llenado");
+                    ///////////////System.out.println("Valor de n: "+n);
+                    ///////////////System.out.println("Mutación? SI");
+                    ///////////////System.out.println("Index1: "+index1+" Index2: "+index2);
+                    ///////////////System.out.println("Padres 1 con h igual a: "+h);
+                    ///////////////imprimirArreglo(ganadoresTorneo[h]);
+                    ///////////////System.out.println("Padres 2 con h+1 igual a: "+(h+1));
+                    ///////////////imprimirArreglo(ganadoresTorneo[h+1]);
+                    ///////////////System.out.println("Arreglo resultante: ");
+                    ///////////////imprimirArreglo(matrizHijos[n]);
+                    ///////////////System.out.println("");
+                }
+                else //Falta un criterio para saber qué array dejar cuando no hay cruzamiento
+                {
+                    matrizHijos[n] = ganadoresTorneo[h];
+                    ///////////////System.out.println("PRIMERA direccion de llenado");
+                    ///////////////System.out.println("Valor de n: "+n);
+                    ///////////////System.out.println("Mutación? NO");
+                    ///////////////System.out.println("Index1: "+index1+" Index2: "+index2);
+                    ///////////////System.out.println("Padres 1 con h igual a: "+h);
+                    ///////////////imprimirArreglo(ganadoresTorneo[h]);
+                    ///////////////System.out.println("Padres 2 con h+1 igual a: "+(h+1));
+                    ///////////////imprimirArreglo(ganadoresTorneo[h+1]);
+                    ///////////////System.out.println("Arreglo resultante: ");
+                    ///////////////imprimirArreglo(matrizHijos[n]);
+                    ///////////////System.out.println("");
+                }
+                h = h + 2;
+            }
+            //Segunda dirección de llenado
+            h = 0;
+            for(int n=psize/2; n<psize; n++)
+            {
+                //Creación de índices y validación
+                index1 = generarRandom(0, poblacion[0].length-1);
+                index2 = generarRandom(0, poblacion[0].length-1);
+                while (index2<index1)
+                {
+                    index1 = generarRandom(0, poblacion[0].length-1);
+                    index2 = generarRandom(0, poblacion[0].length-1);
+                }
+                rnd = generarRandom(1, 100);
+                if (rnd<=pcross)
+                {
+                    
+                    matrizHijos[n] = PMX.pmx(ganadoresTorneo[h+1], ganadoresTorneo[h], index1, index2);
+                }
+                else
+                {
+                    matrizHijos[n] = ganadoresTorneo[h+1];
+                }
+                h = h + 2;
+            }
+            //Pasar costos matrizHijos a arreglo
+            for (int i=0; i<psize; i++)
+            {
+                fitnessHijos[i] = calcularCosto(matrizHijos[i]);
+            }
+            ///////////////System.out.println("Matriz Hijos: ");
+            ///////////////imprimirMatriz(matrizHijos);
+            ///////////////System.out.println("Costos matriz hijos: ");
+            ///////////////imprimirArreglo(fitnessHijos);
+            
+            //----------------------- MUTACIÓN ----------------------
+            for(int n=0; n<psize; n++)
+            {
+                index1 = generarRandom(0, poblacion[0].length-1);
+                index2 = generarRandom(0, poblacion[0].length-1);
+                while (index2<index1)
+                {
+                    index1 = generarRandom(0, poblacion[0].length-1);
+                    index2 = generarRandom(0, poblacion[0].length-1);
+                }
+                matrizGeneracion[n] = ejecutar2opt(matrizHijos[n], index1, index2, pmut);
+                fitnessGeneracion[n] = calcularCosto(matrizGeneracion[n]);
+            }
+            poblacion = matrizGeneracion;
+            fitness = fitnessGeneracion;
+            if (obtenerMin(fitness)<costoGanador)
+            {
+                costoGanador = obtenerMin(fitness);
+                generacion = t;
+                int indexGanador = obtenerIndex(costoGanador, fitnessGeneracion);
+                permGanadora = poblacion[indexGanador];
+                System.out.println("SE HA ENCONTRADO NUEVO GANADOR.");
+                System.out.println("Permutacion: ");
+                imprimirArreglo(permGanadora);
+                System.out.println("Cuyo costo es de: "+ costoGanador);
+                System.out.println("Salido de la Generación: "+ generacion);
+            }
+        }
+        
+        permFinal=permGanadora;
+        costoFinal=costoGanador;
+        genFinal=generacion;
+        
+        Resultado resultado = new Resultado();
+        resultado.setVisible(true);
+        this.setVisible(false);
+        
+        
+        
+        
         
     }//GEN-LAST:event_jButtonGoActionPerformed
 

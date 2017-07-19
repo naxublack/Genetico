@@ -1,10 +1,12 @@
 package ventanas;
+import java.awt.Component;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import tarea3.Metodos;
 import static tarea3.Metodos.*;
@@ -44,9 +46,9 @@ public class Principal extends javax.swing.JFrame {
         jButtonSeleccion = new javax.swing.JButton();
         jButtonSalir = new javax.swing.JButton();
         jButtonAbrir = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jLabelValidar = new javax.swing.JLabel();
         jLabelFondo = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -105,6 +107,12 @@ public class Principal extends javax.swing.JFrame {
         });
         getContentPane().add(jButtonAbrir, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, -1, -1));
 
+        jLabelValidar.setText("No se ha seleccionado archivo");
+        getContentPane().add(jLabelValidar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, 280, 40));
+
+        jLabelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo.png"))); // NOI18N
+        getContentPane().add(jLabelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         jButton1.setText("jButton1");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,12 +120,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 180, -1, -1));
-
-        jLabelValidar.setText("No se ha seleccionado archivo");
-        getContentPane().add(jLabelValidar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, 280, 40));
-
-        jLabelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo.png"))); // NOI18N
-        getContentPane().add(jLabelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -179,11 +181,11 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonMutacionActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        int[] array = {1,2,3,4,5,6,7,8,9,0};
+        int[][] madrid = {{1,2,3,4},{5,6,7,8},{9,10,11,12}};
+        System.out.println(madrid[1]);
+        System.out.println("walala");
         
-        double x = 3.4455;
-        System.out.println(x);
+        
         
     }//GEN-LAST:event_jButton1ActionPerformed
 

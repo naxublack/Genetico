@@ -5,12 +5,12 @@ import java.awt.Toolkit;
  *
  * @author Nacho
  */
-public class Inicio extends javax.swing.JFrame {
+public class Resultado extends javax.swing.JFrame {
 
     /**
      * Creates new form Inicio
      */
-    public Inicio() {
+    public Resultado() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -28,9 +28,10 @@ public class Inicio extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        resultados = new javax.swing.JTextArea();
         jButtonSalir = new javax.swing.JButton();
         jButtonIngresar = new javax.swing.JButton();
-        jLabelIntro1 = new javax.swing.JLabel();
         jLabelIntro = new javax.swing.JLabel();
         jLabelFondo = new javax.swing.JLabel();
 
@@ -38,6 +39,12 @@ public class Inicio extends javax.swing.JFrame {
         setIconImage(getIconImage());
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        resultados.setColumns(20);
+        resultados.setRows(5);
+        jScrollPane1.setViewportView(resultados);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 130, 340, 170));
 
         jButtonSalir.setBackground(new java.awt.Color(0, 0, 102));
         jButtonSalir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -53,29 +60,21 @@ public class Inicio extends javax.swing.JFrame {
         jButtonIngresar.setBackground(new java.awt.Color(0, 0, 102));
         jButtonIngresar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButtonIngresar.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonIngresar.setText("Ingresar");
+        jButtonIngresar.setText("¡ Quiero volver a intentarlo !");
         jButtonIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonIngresarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButtonIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 380, 120, 50));
+        getContentPane().add(jButtonIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 360, 300, 80));
 
-        jLabelIntro1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabelIntro1.setForeground(java.awt.Color.darkGray);
-        jLabelIntro1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelIntro1.setText("<html>\nTarea 3: <em>Resolución del TSP\n<br>\nmediante un algoritmo genético.</em>\n<br>\n<br>\n<center>Autor: Ignacio Muñoz Rojas</center>\n\n\n</html>");
-        jLabelIntro1.setToolTipText("");
-        jLabelIntro1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        getContentPane().add(jLabelIntro1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 260, 370, -1));
-
-        jLabelIntro.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
+        jLabelIntro.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabelIntro.setForeground(java.awt.Color.darkGray);
         jLabelIntro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelIntro.setText("<html>\n<center>Universidad de Talca</center>\n<br>\n<center>Facultad de Ingeniería</center>\n<br>\n<center>Escuela de Ingeniería Civil Industrial</center>\n</html>");
+        jLabelIntro.setText("<html>\n<center>Resultado</center>\n</html>");
         jLabelIntro.setToolTipText("");
         jLabelIntro.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        getContentPane().add(jLabelIntro, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 370, 170));
+        getContentPane().add(jLabelIntro, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 60, 190, 30));
 
         jLabelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo.png"))); // NOI18N
         getContentPane().add(jLabelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -88,8 +87,9 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
     private void jButtonIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIngresarActionPerformed
-        Opciones opciones = new Opciones();
-        opciones.setVisible(true);
+        resultados.setText("");
+        Parametros parametros = new Parametros();
+        parametros.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButtonIngresarActionPerformed
 
@@ -110,22 +110,25 @@ public class Inicio extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Resultado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Resultado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Resultado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Resultado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Inicio().setVisible(true);
+                new Resultado().setVisible(true);
             }
+            
         });
+        resultados.append(str);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -133,6 +136,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton jButtonSalir;
     private javax.swing.JLabel jLabelFondo;
     private javax.swing.JLabel jLabelIntro;
-    private javax.swing.JLabel jLabelIntro1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea resultados;
     // End of variables declaration//GEN-END:variables
 }
